@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: newsdata  
+ 
+    ports:
+      - "3307:3306" 
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - newsnet
+
+  springboot-backend:
+    build:
+      context: ./Personalized-News-Recommender-System
+    container_name: news-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - fastapi-ml
+    restart: always  
+    networks:
+      - newsnet
+
+  fastapi-ml:
+    build:
+      context: ./News-Recommender-ML
+    container_name: ml-service
+    ports:
+      - "8000:8000"
+    networks:
+      - newsnet
+
+  react-frontend:
+    build:
+      context: ./news-recommneder-frontend
+    container_name: react-ui
+    ports:
+      - "3000:80"
+    depends_on:
+      - springboot-backend
+    networks:
+      - newsnet
+
+volumes:
+  mysql-data:
+
+networks:
+  newsnet:
+    driver: bridge

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-ml
+  template:
+    metadata:
+      labels:
+        app: fastapi-ml
+    spec:
+      containers:
+        - name: ml-service
+          image: sumitranaware24/personalizednewsrecommenderapp-fastapi-ml:latest  
+          ports:
+            - containerPort: 8000
+          env:
+            - name: BACKEND_HOST
+              value: news-backend
+--
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-ml
+spec:
+  selector:
+    app: fastapi-ml
+  ports:
+    - port: 8000
+      targetPort: 8000
