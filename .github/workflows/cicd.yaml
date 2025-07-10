@@ -21,19 +21,19 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         export_default_credentials: true
 
-    - name: 🔑 Authenticate Docker to Google Container Registry (GCR)
+    - name: 🔑 Authenticate Docker to GCR
       run: |
         gcloud auth configure-docker
 
     - name: 🐳 Build and Push Docker Images to GCR
       run: |
-        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/news-backend ./Personalized-News-Recommender-System
-        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/fastapi-ml ./News-Recommender-ML
-        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/news-frontend ./news-recommneder-frontend
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-springboot-backend ./Personalized-News-Recommender-System
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-fastapi-ml ./News-Recommender-ML
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-react-frontend ./news-recommneder-frontend
 
-        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/news-backend
-        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/fastapi-ml
-        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/news-frontend
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-springboot-backend
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-fastapi-ml
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/personalizednewsrecommenderapp-react-frontend
 
     - name: 📦 Set up kubectl
       uses: azure/setup-kubectl@v3
