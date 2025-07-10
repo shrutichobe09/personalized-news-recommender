@@ -20,5 +20,6 @@ display_name = "GKE App Service Account"
 iam_roles = [
   "roles/storage.admin",
   "roles/logging.logWriter",
-  "roles/container.nodeServiceAccount"
+  "roles/container.nodeServiceAccount",
+  "roles/container.clusterViewer"  
 ]
