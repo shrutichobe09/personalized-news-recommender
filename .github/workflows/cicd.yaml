@@ -41,7 +41,7 @@ jobs:
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend
 
     - name: 📦 Set up kubectl
-      uses: azure/setup-kubectl@v3
+      uses: azure/setup-kubectl@v3     
       with:
         version: 'latest'
 
