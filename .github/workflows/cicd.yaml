@@ -46,7 +46,7 @@ jobs:
         version: 'latest'
 
     - name: ⚖️ Configure kubectl to use GKE
-      run: |
+      run: |     
         gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --region ${{ secrets.GKE_REGION }}
 
     - name: 🚀 Deploy to GKE
