@@ -23,7 +23,7 @@ jobs:
 
     - name: 🔑 Authenticate Docker to GCR
       run: |
-        gcloud auth configure-docker
+        gcloud auth configure-docker gcr.io --quiet
 
     - name: 🐳 Build and Push Docker Images to GCR
       run: |
@@ -47,4 +47,3 @@ jobs:
     - name: 🚀 Deploy to GKE
       run: |
         kubectl apply -f k8s/
-      
