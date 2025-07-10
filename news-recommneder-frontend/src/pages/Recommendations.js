@@ -35,7 +35,7 @@ const Recommendations = () => {
       const springRes = await fetchArticles(category);
 
       if (!springRes.data || springRes.data.length === 0) {
-        alert("No articles returned from Spring Boot.");
+        console.warn("No articles returned from Spring Boot.");
         setLoading(false);
         return;
       }
@@ -48,16 +48,19 @@ const Recommendations = () => {
         recentArticles: recentArticles,
       };
 
-      const fastRes = await fetchRecommendations(payload);
+      // ✅ Handle 404 or other errors gracefully
+      const fastRes = await fetchRecommendations(payload).catch((err) => {
+        console.warn("Handled error from FastAPI:", err.message);
+        return { data: { recommendations: [] } };
+      });
 
-      if (fastRes.data.recommendations) {
+      if (fastRes.data.recommendations && fastRes.data.recommendations.length > 0) {
         setRecommended(fastRes.data.recommendations);
       } else {
-        alert("No recommendations returned.");
+        console.warn("No recommendations received.");
       }
     } catch (error) {
-      console.error("Error during recommendation:", error);
-      alert("Error: " + (error.message || "Network Error"));
+      console.error("Unexpected error during recommendation:", error);
     } finally {
       setLoading(false);
     }
@@ -100,7 +103,7 @@ const Recommendations = () => {
 
       <div className="text-center mt-4">
         <button className="btn btn-lg btn-primary px-5 py-2" onClick={handleRecommend}>
-           Recommend
+          Recommend
         </button>
       </div>
 
@@ -121,7 +124,7 @@ const Recommendations = () => {
 
       {!loading && recommended.length > 0 && (
         <div className="mt-5">
-          <h4 className="mb-3">General News </h4>
+          <h4 className="mb-3">🎯 Recommended News</h4>
           <div className="row row-cols-1 row-cols-md-2 g-4">
             {recommended.map((a, i) => (
               <div key={i} className="col animate__animated animate__fadeInUp animate__delay-1s">

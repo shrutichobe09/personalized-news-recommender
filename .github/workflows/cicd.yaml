@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and Deploy to GKE
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        export_default_credentials: true
+
+    - name: Authenticate Docker to GCR
+      run: |
+        gcloud auth configure-docker
+
+    - name: Build and Push Docker Images
+      run: |
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/news-backend ./Personalized-News-Recommender-System
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/fastapi-ml ./News-Recommender-ML
+        docker build -t ${{ secrets.DOCKER_REPO_PREFIX }}/news-frontend ./news-recommneder-frontend
+
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/news-backend
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/fastapi-ml
+        docker push ${{ secrets.DOCKER_REPO_PREFIX }}/news-frontend
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Configure kubectl to use GKE
+      run: |
+        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --region ${{ secrets.GKE_REGION }}
+
+    - name: Apply Kubernetes Manifests
+      run: |
+        kubectl apply -f k8s/

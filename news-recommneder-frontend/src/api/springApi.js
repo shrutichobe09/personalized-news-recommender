@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const springApi = axios.create({
-  baseURL: "http://localhost:8080/api/news",
+  baseURL: "/api/news", // Use Ingress path instead of localhost
 });
 
 export const fetchArticles = (category = "general") => {

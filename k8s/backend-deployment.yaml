@@ -14,16 +14,21 @@ spec:
     spec:
       containers:
         - name: backend
-          image: sumitranaware24/personalizednewsrecommenderapp-springboot-backend:latest
+          image: gcr.io/rosy-resolver-465404-b2/personalizednewsrecommenderapp-springboot-backend:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/newsdata
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: root
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -35,3 +40,4 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+  type: ClusterIP

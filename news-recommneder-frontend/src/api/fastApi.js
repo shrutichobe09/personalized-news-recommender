@@ -1,10 +1,9 @@
-
 import axios from "axios";
 
 const fastApi = axios.create({
-  baseURL: "http://localhost:8000", 
+  baseURL: "/ml", // ✅ Correct prefix to reach FastAPI service
 });
 
 export const fetchRecommendations = (payload) => {
-  return fastApi.post("/recommend", payload);
+  return fastApi.post("/recommend", payload);  // Full path: /ml/recommend
 };

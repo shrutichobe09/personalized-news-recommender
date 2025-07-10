@@ -14,13 +14,13 @@ spec:
     spec:
       containers:
         - name: ml-service
-          image: sumitranaware24/personalizednewsrecommenderapp-fastapi-ml:latest  
+          image: gcr.io/rosy-resolver-465404-b2/personalizednewsrecommenderapp-fastapi-ml:latest
           ports:
             - containerPort: 8000
           env:
             - name: BACKEND_HOST
               value: news-backend
---
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,3 +31,4 @@ spec:
   ports:
     - port: 8000
       targetPort: 8000
+  type: ClusterIP

@@ -3,27 +3,26 @@ kind: Ingress
 metadata:
   name: news-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
-    - host: news.local
-      http:
+    - http:
         paths:
-          - path: /api/?(.*)
+          - path: /api
             pathType: Prefix
             backend:
               service:
                 name: news-backend
                 port:
                   number: 8080
-          - path: /ml/?(.*)
+          - path: /ml
             pathType: Prefix
             backend:
               service:
                 name: fastapi-ml
                 port:
                   number: 8000
-          - path: /?(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:
