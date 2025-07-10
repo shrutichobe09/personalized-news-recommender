@@ -23,7 +23,6 @@ jobs:
 
     - name: 🗑️ Clear old Docker config (optional)
       run: rm -f ~/.docker/config.json
-
     - name: 🔑 Authenticate Docker to GCR
       run: gcloud auth configure-docker gcr.io --quiet
 
