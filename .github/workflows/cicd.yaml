@@ -47,7 +47,7 @@ jobs:
 
     - name: 🔧 Install gke-gcloud-auth-plugin
       run: |
-        gcloud components install gke-gcloud-auth-plugin --quiet
+        gcloud components install gke-gcloud-auth-plugin --quiet    
 
     - name: ⚖️ Configure kubectl to use GKE
       run: |  
