@@ -47,7 +47,7 @@ jobs:
 
     - name: ⚖️ Configure kubectl to use GKE
       run: |     
-        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --zone ${{ secrets.GKE_ZONE }}
+        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --zone ${{ secrets.GKE_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
 
     - name: 🚀 Deploy to GKE
       run: |
