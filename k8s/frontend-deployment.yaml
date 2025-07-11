@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: gcr.io/rosy-resolver-465404-b2/personalizednewsrecommenderapp-react-frontend:v3
+          image: gcr.io/rosy-resolver-465404-b2/personalizednewsrecommenderapp-react-frontend:__TAG__
           imagePullPolicy: Always
           ports:
             - containerPort: 80

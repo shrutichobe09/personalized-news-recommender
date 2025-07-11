@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Build and Deploy to GKE
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
     - name: 📎 Checkout Code
@@ -30,15 +32,21 @@ jobs:
     - name: 🔑 Authenticate Docker to GCR
       run: gcloud auth configure-docker gcr.io --quiet
 
+    
+
     - name: 🐳 Build and Push Docker Images to GCR
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend ./Personalized-News-Recommender-System
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml ./News-Recommender-ML
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v3 ./news-recommneder-frontend
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend:${IMAGE_TAG} ./Personalized-News-Recommender-System
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml:${IMAGE_TAG} ./News-Recommender-ML
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:${IMAGE_TAG} ./news-recommneder-frontend
 
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v3
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend:${IMAGE_TAG}
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml:${IMAGE_TAG}
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:${IMAGE_TAG}
+
+    - name: 🔁 Replace __TAG__ in frontend deployment
+      run: |
+        sed -i "s|__TAG__|${IMAGE_TAG}|g" k8s/frontend-deployment.yaml
 
     - name: 📦 Set up kubectl
       uses: azure/setup-kubectl@v3     
