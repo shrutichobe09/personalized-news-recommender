@@ -71,6 +71,7 @@ const Recommendations = () => {
       <div className="text-center mb-4">
         <h2 className="fw-bold">🧠Personalized News Recommender</h2>
         <p className="text-muted">Stay updated with articles tailored to your interests</p>
+          📰 Discover articles curated just for you – always fresh, always relevant.
       
       </div>
 
