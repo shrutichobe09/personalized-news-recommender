@@ -69,7 +69,7 @@ const Recommendations = () => {
   return (
     <div className="container mt-5 animate__animated animate__fadeIn">
       <div className="text-center mb-4">
-        <h2 className="fw-bold">🧠 Personalized News Recommender</h2>
+        <h2 className="fw-bold">🧠Personalized News Recommender</h2>
         <p className="text-muted">Stay updated with articles tailored to your interests</p>
       </div>
 

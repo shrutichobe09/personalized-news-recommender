@@ -34,11 +34,11 @@ jobs:
       run: |
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend ./Personalized-News-Recommender-System
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml ./News-Recommender-ML
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v2 ./news-recommneder-frontend
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v3 ./news-recommneder-frontend
 
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-springboot-backend
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-fastapi-ml
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v2
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/personalizednewsrecommenderapp-react-frontend:v3
 
     - name: 📦 Set up kubectl
       uses: azure/setup-kubectl@v3     
